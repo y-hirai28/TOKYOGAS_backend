@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: btob-backend
+    env: python
+    runtime: python-3.10.13
+    buildCommand: pip install -r requirements.txt && python init_db.py
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./app.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: https://your-app.vercel.app,http://localhost:3000
+      - key: DEBUG
+        value: "False"
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "10080"
