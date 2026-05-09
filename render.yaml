@@ -2,11 +2,12 @@ services:
   - type: web
     name: btob-backend
     env: python
-    runtime: python-3.10.13
     buildCommand: pip install -r requirements.txt && python init_db.py
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/v1/health
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.10.13"
       - key: DATABASE_URL
         value: sqlite:///./app.db
       - key: SECRET_KEY
